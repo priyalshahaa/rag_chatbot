@@ -1,0 +1,7 @@
+pymupdf
+openai
+langchain
+langchain-openai
+faiss-cpu
+python-dotenv
+langchain_community
