@@ -73,7 +73,7 @@ def main():
         return
     
     while True:
-        query = input("Human: ").strip()
+        query = input("You: ").strip()
 
         if query.lower() in ['exit', 'quit']:
             print("Chatbot: Goodbye!")
