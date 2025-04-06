@@ -73,7 +73,7 @@ def initialize_rag_chain(vector_store):
     qa_prompt = ChatPromptTemplate.from_messages([
         ("system", """You are a helpful assistant that answers questions about the provided document. 
          If the answer is not found in the documents, you can use your own knowledge to answer, but state that you are using your own knowledge.
-         Answer based only on the following context:\n{context}"""),
+         Keep answers concise. Answer based only on the following context:\n{context}"""),
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}")
     ])
