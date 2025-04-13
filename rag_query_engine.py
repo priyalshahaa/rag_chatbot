@@ -40,21 +40,12 @@ def load_and_chunk_pdf(file_path):
         return text_splitter.split_text(text)
     except Exception:
         return None
-    
-def create_faiss_index(chunks, db_path="faiss_index"):
+
+def create_faiss_index(chunks):
     try:
         embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-        vector_store = FAISS.from_texts(chunks, embeddings)
-        vector_store.save_local(db_path)
-        return vector_store
-    except Exception as e:
-        return None
-    
-def load_faiss_index(db_path="faiss_index"):
-    try:
-        embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-        return FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
-    except Exception as e:
+        return FAISS.from_texts(chunks, embeddings)
+    except Exception:
         return None
 
 def chatbot_response(query, vector_store):
@@ -73,16 +64,11 @@ def chatbot_response(query, vector_store):
 
 def main():
     pdf_path = get_pdf_file()
-    index_path = "faiss_index"
-
-    if os.path.exists(index_path):
-        vector_store = load_faiss_index(index_path)
-    else:
-        chunks = load_and_chunk_pdf(pdf_path)
-        if not chunks:
-            return
-        
-        vector_store = create_faiss_index(chunks, index_path)
+    chunks = load_and_chunk_pdf(pdf_path)
+    if not chunks:
+        return
+    
+    vector_store = create_faiss_index(chunks)
     if not vector_store:
         return
     
